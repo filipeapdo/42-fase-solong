@@ -6,7 +6,7 @@
 #    By: fiaparec <fiaparec@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/25 19:07:19 by fiaparec          #+#    #+#              #
-#    Updated: 2022/05/26 07:05:35 by fiaparec         ###   ########.fr        #
+#    Updated: 2022/05/26 07:16:26 by fiaparec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,9 +20,9 @@ AR				= ar rcsv
 
 RM				= rm -f
 
-LIBFT_LIB		= libft/libft.a
-
 LIBFT_HEADER	= -I libft
+
+LIBFT_LIB		= libft/libft.a
 
 LIBFT_LIB_LINK	= -L libft -l:libft.a
 
@@ -36,7 +36,7 @@ NAME			= so_long
 				$(CC) $(CC_FLAGS) $(LIBFT_HEADER) -c $< -o $(<:.c=.o)
 
 $(NAME):		$(LIBFT_LIB) $(OBJS)
-				$(CC) $(CC_FLAGS) $(OBJS) $(MLX_FLAGS) $(LIBFT_LIB_LINK) -o $(NAME)
+				$(CC) $(CC_FLAGS) $(OBJS) $(LIBFT_LIB_LINK) $(MLX_FLAGS) -o $(NAME)
 
 $(LIBFT_LIB):
 				make -C libft
