@@ -18,7 +18,7 @@ wsl --shutdown
 > :warning: I've an issue with my keyboard map on X Apps and poorly solve it using [xorg-setxkbmap](https://archlinux.org/packages/extra/x86_64/xorg-setxkbmap/) tool to set my keyboard as follow: `setxkbmap -model abnt2 -layout br -variant abnt2`
 
 3. For test pourpose, I've intalled [chromium](https://archlinux.org/packages/extra/x86_64/chromium/).
-![chromium-test.png](chromium-test.png "Chromium Test").
+![chromium-test.png](chromium-test.png "Chromium Test")
 
 ### MiniLibX
 > :book: [reference material](https://harm-smits.github.io/42docs/libs/minilibx) from [harmsmits](https://www.linkedin.com/in/harmsmits/)
@@ -86,8 +86,8 @@ int	main()
 	return (0);
 }
 ```
-1. To run it: `gcc 1.c -Wall -Wextra -Werror -L . -lmlx -lXext -lX11 && ./a.out`
-![mlx-own-test.png](mlx-own-test.png "Own Test").
+6. To run it: `gcc 1.c -Wall -Wextra -Werror -L . -lmlx -lXext -lX11 && ./a.out`
+![mlx-own-test.png](mlx-own-test.png "Own Test")
 
 #### Lib files' setup
 
@@ -97,3 +97,34 @@ int	main()
    3. `cd minilibx-linux && mv libmlx.a	/usr/lib`
 
 2. Them, you can run the compiler without the options -L -I for these files: `gcc 1.c -Wall -Wextra -Werror -lmlx -lXext -lX11 && ./a.out`
+
+
+
+## Makefile
+
+Nothing new here, it's a pretty straight forward Makefile, but... as I've never explain it to myself, here we go!
+
+The fisrt "half" of the file contains eigther the **aliases** for some commands or **variables** that will be consumed by Makefile. In my case:
+
+| Alias | Command   | Description                                                                        |
+| ----- | --------- | ---------------------------------------------------------------------------------- |
+| CC    | cc -> gcc | C Compiler                                                                         |
+| AR    | ar rcsv   | It will create an archive (aka lib, in this case) with all objects compiled before |
+| RM    | rm -rf    | Remove command                                                                     |
+
+| Varialbe       | Content               | Description                               |
+| -------------- | --------------------- | ----------------------------------------- |
+| CC_FLAGS       | -Wall -Wextra -Werror | Mandatory C warning flags for 42 projects |
+| MLX_FLAGS      | -lmlx -lXext -lX11    | MiniLibX C lib linking flags              |
+| LIBFT_LIB      | libft/libft.a         | Path to Libft archive (or lib :smile:)    |
+| LIBFT_HEADER   | -I libft              | Path to Libft header file                 |
+| LIBFT_LIB_LINK | -L libft -l:libft.a   | Explicity C lib linkig flag to Libft lib  |
+| SRCS           | *.c                   | All C source files for the project        |
+| OBJS           | $(SRCS:.c=.o)         | Result $() %.c to %.o compilation process |
+| NAME           | so_long               | Project name :video_game:                 |
+
+The second part, contains de **recipes**. A recipe could have a pre-req rule and will have it's commads:
+
+| Recipe | Content                                               | Description |
+| ------ | ----------------------------------------------------- | ----------- |
+| .c.o:  | $(CC) $(CC_FLAGS) $(LIBFT_HEADER) -c $< -o $(<:.c=.o) | bla bla bla |
