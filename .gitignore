@@ -1,1 +1,5 @@
 libft/tests
+*.a
+*.o
+*.out
+so_long
