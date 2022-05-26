@@ -86,6 +86,7 @@ int	main()
 	return (0);
 }
 ```
+
 6. To run it: `gcc 1.c -Wall -Wextra -Werror -L . -lmlx -lXext -lX11 && ./a.out`
 ![mlx-own-test.png](mlx-own-test.png "Own Test")
 
@@ -97,8 +98,6 @@ int	main()
    3. `cd minilibx-linux && mv libmlx.a	/usr/lib`
 
 2. Them, you can run the compiler without the options -L -I for these files: `gcc 1.c -Wall -Wextra -Werror -lmlx -lXext -lX11 && ./a.out`
-
-
 
 ## Makefile
 
@@ -128,3 +127,8 @@ The second part, contains de **recipes**. A recipe could have a pre-req rule and
 | Recipe | Content                                               | Description |
 | ------ | ----------------------------------------------------- | ----------- |
 | .c.o:  | $(CC) $(CC_FLAGS) $(LIBFT_HEADER) -c $< -o $(<:.c=.o) | bla bla bla |
+
+
+
+---
+:page_with_curl: :end:
