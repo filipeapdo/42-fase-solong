@@ -34,9 +34,9 @@ wsl --shutdown
 
 3. Compile the lib running: `cd minilibx-linux && make`.
 
-4. There's a test folder to check if everything is working: `cd test && ./run_tests.sh` or `cd test && ./mlx-test`.
+4. There's a test folder to check if everything is working properly: `cd test && ./run_tests.sh` or `cd test && ./mlx-test`.
 
-5. I like to always do my own test (based on the reference material).
+5. I like to always do my own "tiny" test (based on the reference material).
 ```c
 #include "mlx.h"
 
@@ -61,8 +61,8 @@ int	main()
 	void	*mlx;
 	void	*mlx_win;
 	t_data	img;
-	int	i;
-	int 	j;
+	int		i;
+	int		j;
 
 	mlx = mlx_init();
 	mlx_win = mlx_new_window(mlx, 500, 500, "Hello world!");
@@ -111,23 +111,35 @@ The fisrt "half" of the file contains eigther the **aliases** for some commands 
 | AR    | ar rcsv   | It will create an archive (aka lib, in this case) with all objects compiled before |
 | RM    | rm -rf    | Remove command                                                                     |
 
-| Varialbe       | Content               | Description                               |
-| -------------- | --------------------- | ----------------------------------------- |
-| CC_FLAGS       | -Wall -Wextra -Werror | Mandatory C warning flags for 42 projects |
-| MLX_FLAGS      | -lmlx -lXext -lX11    | MiniLibX C lib linking flags              |
-| LIBFT_LIB      | libft/libft.a         | Path to Libft archive (or lib :smile:)    |
-| LIBFT_HEADER   | -I libft              | Path to Libft header file                 |
-| LIBFT_LIB_LINK | -L libft -l:libft.a   | Explicity C lib linkig flag to Libft lib  |
-| SRCS           | *.c                   | All C source files for the project        |
-| OBJS           | $(SRCS:.c=.o)         | Result $() %.c to %.o compilation process |
-| NAME           | so_long               | Project name :video_game:                 |
+| Variable       | Content               | Description                                   |
+| -------------- | --------------------- | --------------------------------------------- |
+| CC_FLAGS       | -Wall -Wextra -Werror | Mandatory C warning flags for 42 projects     |
+| MLX_FLAGS      | -lmlx -lXext -lX11    | MiniLibX C lib linking flags                  |
+| LIBFT_HEADER   | -I libft              | Path to Libft header file                     |
+| LIBFT_LIB      | libft/libft.a         | Path to Libft archive (aka lib :smile:)       |
+| LIBFT_LIB_LINK | -L libft -l:libft.a   | Explicity C lib linkig flag to Libft lib      |
+| SRCS           | *.c                   | All project's C source files                  |
+| OBJS           | \$(SRCS:.c=.o)        | Result \$() of %.c to %.o compilation process |
+| NAME           | so_long               | Project name :video_game:                     |
 
-The second part, contains de **recipes**. A recipe could have a pre-req rule and will have it's commads:
+The second part, contains de **recipes**. A recipe could have pre-reqs rules and will have it's commads. If no recipe is provide with the `make` command, the first explicit recipe present in the file will be executed.
 
-| Recipe | Content                                               | Description |
-| ------ | ----------------------------------------------------- | ----------- |
-| .c.o:  | $(CC) $(CC_FLAGS) $(LIBFT_HEADER) -c $< -o $(<:.c=.o) | bla bla bla |
-
+| Recipe         | Content                                                                   | Description                                                                                                                                                 |
+| -------------- | ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| .c.o:          | \$(CC) \$(CC_FLAGS) \$(LIBFT_HEADER) -c \$< -o \$(<:.c=.o)                | Explicitly describes how the .c=.o rules will behaves.                                                                                                      |
+|                |                                                                           | In this case, will run the `CC` command, with the `CC_FLAGS` variable plus the `LIBFT_HEADER` variable.                                                     |
+|                |                                                                           | On top of that, for each `.c` file, it will add -c option (meaning that the compiler mustn't link the object files generated to an executable output file). |
+|                |                                                                           | Finnaly, the -o option will sets the name of it object file to the same of the source file "$< -o $...".                                                    |
+|                |                                                                           | Heres is an example of this recipe translated: `cc -Wall -Wextra -Werror -I libft -c so_long.c -o so_long.o`.                                               |
+| \$(NAME):      | pre-req: \$(LIBFT_LIB) \$(OBJS)                                           | This recipe have 2 rules as pre-req                                                                                                                         |
+| \$(NAME):      | \$(CC) \$(CC_FLAGS) \$(OBJS) \$(LIBFT_LIB_LINK) \$(MLX_FLAGS) -o \$(NAME) | ble ble ble                                                                                                                                                 |
+| \$(LIBFT_LIB): | make -C libft                                                             | bli bli bli                                                                                                                                                 |
+| all:           | pre-req: \$(NAME)                                                         | This recipe have 1 rule as pre-req                                                                                                                          |
+| clean:         | make clean -C libft; \$(RM) \$(OBJS)                                      | blo blo blo                                                                                                                                                 |
+| fclean:        | pre-req: clean                                                            | This recipe have 1 rule as pre-req                                                                                                                          |
+| fclean:        | make fclean -C libft; \$(RM) $(NAME); \$(RM) *.out; \$(RM) *.a            | blu blu blu                                                                                                                                                 |
+| re:            | pre-req: fclean all                                                       | This recipe have 1 rule as pre-req                                                                                                                          |
+| .PHONY:        | all clean fclean re                                                       | :smile:                                                                                                                                                     |
 
 
 ---
