@@ -124,22 +124,25 @@ The fisrt "half" of the file contains eigther the **aliases** for some commands 
 
 The second part, contains de **recipes**. A recipe could have pre-reqs rules and will have it's commads. If no recipe is provide with the `make` command, the first explicit recipe present in the file will be executed.
 
-| Recipe         | Content                                                                   | Description                                                                                                                                                 |
-| -------------- | ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| .c.o:          | \$(CC) \$(CC_FLAGS) \$(LIBFT_HEADER) -c \$< -o \$(<:.c=.o)                | Explicitly describes how the .c=.o rules will behaves.                                                                                                      |
-|                |                                                                           | In this case, will run the `CC` command, with the `CC_FLAGS` variable plus the `LIBFT_HEADER` variable.                                                     |
-|                |                                                                           | On top of that, for each `.c` file, it will add -c option (meaning that the compiler mustn't link the object files generated to an executable output file). |
-|                |                                                                           | Finnaly, the -o option will sets the name of it object file to the same of the source file "$< -o $...".                                                    |
-|                |                                                                           | Heres is an example of this recipe translated: `cc -Wall -Wextra -Werror -I libft -c so_long.c -o so_long.o`.                                               |
-| \$(NAME):      | pre-req: \$(LIBFT_LIB) \$(OBJS)                                           | This recipe have 2 rules as pre-req                                                                                                                         |
-| \$(NAME):      | \$(CC) \$(CC_FLAGS) \$(OBJS) \$(LIBFT_LIB_LINK) \$(MLX_FLAGS) -o \$(NAME) | ble ble ble                                                                                                                                                 |
-| \$(LIBFT_LIB): | make -C libft                                                             | bli bli bli                                                                                                                                                 |
-| all:           | pre-req: \$(NAME)                                                         | This recipe have 1 rule as pre-req                                                                                                                          |
-| clean:         | make clean -C libft; \$(RM) \$(OBJS)                                      | blo blo blo                                                                                                                                                 |
-| fclean:        | pre-req: clean                                                            | This recipe have 1 rule as pre-req                                                                                                                          |
-| fclean:        | make fclean -C libft; \$(RM) $(NAME); \$(RM) *.out; \$(RM) *.a            | blu blu blu                                                                                                                                                 |
-| re:            | pre-req: fclean all                                                       | This recipe have 1 rule as pre-req                                                                                                                          |
-| .PHONY:        | all clean fclean re                                                       | :smile:                                                                                                                                                     |
+| Recipe         | Content                                                                   | Description                                                                                                   |
+| -------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| .c.o:          | \$(CC) \$(CC_FLAGS) \$(LIBFT_HEADER) -c \$< -o \$(<:.c=.o)                | Explicitly describes how the .c=.o rules will behaves.                                                        |
+|                |                                                                           | In this case, will run the `CC` command, with the `CC_FLAGS` variable plus the `LIBFT_HEADER` variable.       |
+|                |                                                                           | On top of that, for each `.c` file, the recipe will add the `-c` option,                                      |
+|                |                                                                           | (meaning that the compiler mustn't link the object files generated to an executable output file).             |
+|                |                                                                           | Finnaly, the `-o` option will sets the name of it object file to the same of the source file `$< -o $...` .   |
+|                |                                                                           | Heres is an example of this recipe translated: `cc -Wall -Wextra -Werror -I libft -c so_long.c -o so_long.o`. |
+| \$(NAME):      | pre-req: \$(LIBFT_LIB) \$(OBJS)                                           | This recipe have 2 rules as pre-req.                                                                          |
+| \$(NAME):      | \$(CC) \$(CC_FLAGS) \$(OBJS) \$(LIBFT_LIB_LINK) \$(MLX_FLAGS) -o \$(NAME) | After the pre reqs being fullfilled, it will run the `CC` command passing the gererated object files `OBJS`.  |
+|                |                                                                           | The following options will be passed to compiler: `CC_FLAGS`, `LIBFT_LIB_LINK`, `MLX_FLAGS`.                  |
+|                |                                                                           | The result of the recipe will be the `NAME` output file generated by the `-o` option.                         |
+| \$(LIBFT_LIB): | make -C libft                                                             | bli bli bli                                                                                                   |
+| all:           | pre-req: \$(NAME)                                                         | This recipe have 1 rule as pre-req                                                                            |
+| clean:         | make clean -C libft; \$(RM) \$(OBJS)                                      | blo blo blo                                                                                                   |
+| fclean:        | pre-req: clean                                                            | This recipe have 1 rule as pre-req                                                                            |
+| fclean:        | make fclean -C libft; \$(RM) $(NAME); \$(RM) *.out; \$(RM) *.a            | blu blu blu                                                                                                   |
+| re:            | pre-req: fclean all                                                       | This recipe have 1 rule as pre-req                                                                            |
+| .PHONY:        | all clean fclean re                                                       | :smile:                                                                                                       |
 
 
 ---
