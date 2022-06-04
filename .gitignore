@@ -5,3 +5,4 @@ libft/tests
 *.out
 so_long
 *test*
+*.log
